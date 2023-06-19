@@ -1,0 +1,26 @@
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.24-latest
+    hostname: envoy
+    ports:
+      - "15001:15001"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./target/wasm32-wasi/release:/etc/envoy/proxy-wasm-plugins
+    networks:
+      - envoymesh
+  sleep:
+    image: governmentpaas/curl-ssl
+    command: ["/bin/sleep", "3650d"]
+    networks:
+      - envoymesh
+  httpbin:
+    image: citizenstig/httpbin
+    hostname: httpbin
+    ports:
+      - "8000:8000"
+    networks:
+      - envoymesh
+networks:
+  envoymesh: {}
+
