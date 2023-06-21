@@ -4,6 +4,7 @@ services:
     hostname: envoy
     ports:
       - "15001:15001"
+      - "15000:15000"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
       - ./target/wasm32-wasi/release:/etc/envoy/proxy-wasm-plugins
@@ -19,6 +20,15 @@ services:
     hostname: httpbin
     ports:
       - "8000:8000"
+    networks:
+      - envoymesh
+  jwtissuer:
+    environment:
+      - RUST_LOG=debug
+    image: pheely/jwt_issuer:0.1
+    hostname: jwtissuer
+    ports:
+      - "8080:8080"
     networks:
       - envoymesh
 networks:

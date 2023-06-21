@@ -15,6 +15,7 @@ I use `docker compose` to create a simple cluster:
 - `curl` client as the downstream
 - Envoy Proxy
 - `httpbin` service as the upstream
+- `jwt_issuer` service - issues a JWT when requested
 
 ![img](diagram.png)
 
@@ -64,21 +65,25 @@ Run this command to talk to the `httpbin` service through the Envoy Proxy:
 {
   "headers": {
     "Accept": "*/*",
+    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODczMjUzNDksImV4cCI6MTY4NzMyODk0OSwibmJmIjoxNjg3MzI1MzQ5LCJpc3MiOiJodHRwOi8vMC4wLjAuMDo4MDgwL3Nzby9vYXV0aDIvYXBpIiwic3ViIjoiZmJhOGNlMTAtNjY4OS00MzllLTkzNDQtYzYyY2QxYTEwNDBmIiwiYXVkIjoiZmJhOGNlMTAtNjY4OS00MzllLTkzNDQtYzYyY2QxYTEwNDBmIiwiY3RzIjoiT0FVVEgyX1NUQVRFTEVTU19HUkFOVCIsImF1ZGl0VHJhY2tpbmdJZCI6IjZlOTZmNDM0LTMwODItNGIyMS05MDNmLWI4NDg1MDM5YWZmNCIsInN1Ym5hbWUiOiJmYmE4Y2UxMC02Njg5LTQzOWUtOTM0NC1jNjJjZDFhMTA0MGYiLCJ0b2tlbk5hbWUiOiJhY2Nlc3NfdG9rZW4iLCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiYXV0aEdyYW50SWQiOiJOcEh1MzNkMC12UTd0ZUI0bDkwcTdrajlmSHMiLCJuYmYiOjE2ODczMjUzNDksImdyYW50X3R5cGUiOiJjbGllbnRfY3JlZGVudGlhbHMiLCJzY29wZSI6WyJzZWN1cml0eS50cy5iZmM4LnRva2VuaXphdGlvbiJdLCJhdXRoX3RpbWUiOjE2ODczMjUzNDksInJlYWxtIjoiL2ludGVybmFsczJzIiwiZXhwIjoxNjg3MzI4OTQ5LCJpYXQiOjE2ODczMjUzNDksImV4cGlyZXNfaW4iOjM2MDAsImp0aSI6Il96NWdDMGhfQjBMQzBPVF85bUM0aVJtMVhRUSJ9.R2BGb8DxT6UzlClsq8JDjn89jNKp8I7vpRYJtlAlZqydjfxxKlRQBfzM7TwHBO25r5U2wMrmQLImll15cDElTe8YQaIimYXbdRHUO0KfWIYcy7JeQ4mkCeCOKIDJmJbJ2t8hTFpwc7l4tolhaCONOgJzbNVUy-mmGYegXQ_UTAjz50ql8W9nUjbQHZsUq3G1WhATv4R5b3NydCQTe0xc75-GoK0xaHO9Fr9bKfUC5QZeYqgWPgRQd5HYRksvLuv8UggVtedHmUH0rTZiX8CcMbQqHjzLjgIgNR7StyRIv8btFcz3KDQvkD5F_JXprPVEBHhwMZvR6-sPELDIzrBvuw",
     "From-Proxy-Wasm": "Hello",
     "Host": "httpbin",
     "User-Agent": "curl/8.1.0",
     "X-Envoy-Expected-Rq-Timeout-Ms": "15000",
-    "X-Request-Id": "ed5e26e8-5c4a-4671-aae6-46b13430b5a7"
+    "X-Request-Id": "a8018114-5fad-4e1d-a516-f5f0b886e8e9"
   }
 }
 ```
 
-Notice that three headers are created by the Proxy:
-- `X-Envoy-Expected-Rq-Timeout-Ms`
-- `X-Request-Id`
-- `From-Proxy-Wasm`
+Notice that four headers are added to the request by the Envoy Proxy & WASM Plugin:
 
-The first two are from Envoy Proxy out of box. The last one is added by the WASM module.
+- added by WASM Plugin
+  - `Authorization` 
+  - `From-Proxy-Wasm`  
+- added by Envoy
+  - `X-Envoy-Expected-Rq-Timeout-Ms`
+  - `X-Request-Id`
+
 
 ## Cleanup
 
