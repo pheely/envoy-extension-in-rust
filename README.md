@@ -15,7 +15,7 @@ I use `docker compose` to create a simple cluster:
 - `curl` client as the downstream
 - Envoy Proxy
 - `httpbin` service as the upstream
-- `jwt_issuer` service - issues a JWT when requested
+- [`jwt_issuer` service](https://github.com/pheely/jwt_issuer) - issues a JWT when requested
 
 ![img](diagram.png)
 
