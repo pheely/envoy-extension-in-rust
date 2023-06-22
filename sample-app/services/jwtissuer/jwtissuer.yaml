@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: jwtissuer
+  labels:
+    app: jwtissuer
+    service: jwtissuer
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: jwtissuer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jwtissuer
+  labels: 
+    app: jwtissuer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jwtissuer
+  template:
+    metadata:
+      labels:
+        app: jwtissuer
+    spec:
+      containers:
+      - image: pheely/jwt_issuer:0.1
+        imagePullPolicy: Always
+        name: jwtissuer
+        env:
+        - name: RUST_LOG
+          value: "debug"
+        ports: 
+        - containerPort: 8080

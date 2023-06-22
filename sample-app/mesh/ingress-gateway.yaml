@@ -1,0 +1,49 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: philip-gateway
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: portfolio-virtualservice
+  namespace: default
+spec:
+  hosts:
+  - "portfolio.test.io"
+  gateways:
+  - philip-gateway
+  http:
+  - route:
+    - destination:
+        host: portfolio
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: pricing-virtualservice
+  namespace: default
+spec:
+  hosts:
+  - "pricing.test.io"
+  gateways:
+  - philip-gateway
+  http:
+  - route:
+    - destination:
+        host: pricing
+        port:
+          number: 80

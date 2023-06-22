@@ -1,0 +1,11 @@
+apiVersion: extensions.istio.io/v1alpha1
+kind: WasmPlugin
+metadata:
+  name: portfolio-filter-sdk
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: portfolio
+  pluginName: add_jwt
+  url: oci://pheely/wasm-wam:0.1

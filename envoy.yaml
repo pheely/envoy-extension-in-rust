@@ -27,6 +27,17 @@ static_resources:
                     code:
                       local:
                         filename: "/etc/envoy/proxy-wasm-plugins/add_authorization_header.wasm"
+                    # code:
+                      # remote:
+                      #   http_uri: 
+                      #     uri: "oci://pheely/add_auth_header.wasm:0.1"
+                      #     cluster: jwtissuer
+                      #     timeout: 5s
+                      #   sha256: "78722c32d58ee9955acc5a70274c8a0f16b8c09eb857628f99303fa4381708d2"
+                      #   retry_policy: 
+                      #     retry_back_off: 
+                      #       base_interval: 5s
+                      #       max_interval: 50s
           - name: envoy.filters.http.router
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
