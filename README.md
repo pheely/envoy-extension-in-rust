@@ -51,7 +51,7 @@ envoy-docker-compose-httpbin-1  | [2023-06-19 04:18:27 +0000] [1] [INFO] Listeni
 Run the following command to talk to the `httpbin` service directly:
 
 ```bash
-$ docker exec -it envoy-docker-compose-sleep-1 /bin/sh
+$ docker exec -it envoy-extension-in-rust-sleep-1 /bin/sh
 / # curl -X GET http://httpbin:8000/headers
 {
   "headers": {

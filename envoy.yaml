@@ -26,7 +26,7 @@ static_resources:
                     runtime: "envoy.wasm.runtime.v8"
                     code:
                       local:
-                        filename: "/etc/envoy/proxy-wasm-plugins/add_authorization_header.wasm"
+                        filename: "/etc/envoy/proxy-wasm-plugins/add_auth_header.wasm"
                     # code:
                       # remote:
                       #   http_uri: 
